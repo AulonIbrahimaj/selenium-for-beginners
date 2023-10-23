@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PositiveTests {
@@ -31,11 +32,28 @@ public class PositiveTests {
         password.sendKeys("SuperSecretPassword!");
 
 //       click login button
-        driver.findElement(By.cssSelector(".radius")).click();
-//       verification
+        WebElement loginBtn = driver.findElement(By.cssSelector(".radius"));
+        loginBtn.click();
+
+//       verifications:
+
 //       new url
+        String expectedURL = "https://the-internet.herokuapp.com/secure";
+        String actualURL = driver.getCurrentUrl();
+        Assert.assertEquals(expectedURL, actualURL, "Actual page url is not the same as expected");
+
 //       logout button is visible
+        WebElement logOutButton = driver.findElement(By.cssSelector(".icon-2x.icon-signout"));
+        Assert.assertTrue(logOutButton.isDisplayed(), "Log Out button is not visible");
+
 //       successful login message
+        WebElement successMessage = driver.findElement(By.cssSelector("#flash"));
+        String expectedMessage = "You logged into a secure area!";
+        String actualMessage = successMessage.getText();
+        //Assert.assertEquals(actualMessage,expectedMessage,"Actual message is not the same as expected");
+        Assert.assertTrue(actualMessage.contains(expectedMessage),
+                "Actual message does not contain expected message.\nActual Message: " + actualMessage + "\nExpected Message: " + expectedMessage);
+
         driver.close();
         System.out.println("Test finished");
 
