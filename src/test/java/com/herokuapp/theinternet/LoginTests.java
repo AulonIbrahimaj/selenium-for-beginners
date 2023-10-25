@@ -38,7 +38,7 @@ public class LoginTests {
     }
 
     @Test(priority = 1, groups = {"positiveTests", "smokeTests"})
-    public void loginTest() {
+    public void positiveLoginTest() {
         System.out.println("Test started");
 
 
